@@ -69,6 +69,73 @@ fn main() {
     } else {
         println!("Vous avez choisi: {}", options[choix - 1]);
     }
+
+    // Tableau
+    let tableau = [1, 2, 3, 4, 5];
+    for i in 0..tableau.len() {
+        println!("Élément {}: {}", i, tableau[i]);
+    }
+
+    // &elt itération sur des références aux élements du tableau 
+    // &tab on passe une référence au tableau pour éviter de prendre la possession du tableau entier
+    for &elt in &tableau {
+        println!("Élément: {}", elt);
+    }
+
+    // Les loops
+    let mut compteur = 0;
+    loop {
+        compteur += 1;
+        if compteur == 3 {
+            break;
+        }
+        println!("Compteur: {}", compteur);
+    }
+
+    let mut compteur2 = 0;
+    while compteur2 < 5 {
+        compteur2 += 1;
+        println!("Compteur 2: {}", compteur2);
+    }
+
+    struct Salarie {
+        nom: String,
+        age: u32,
+        ville: String
+    }
+
+    let salarie1 = Salarie {
+        nom: String::from("Alice"),
+        age: 28,
+        ville: String::from("Paris"),
+    };
+
+    println!("Nom: {}, Age: {}, Ville: {}", salarie1.nom, salarie1.age, salarie1.ville);
+
+    let nombre = 10;
+    match nombre {
+        1 => println!("Un"),
+        2 => println!("Deux"),
+        3 => println!("Trois"),
+        _ => println!("Autre nombre"),
+    }
+
+    struct Personne {
+        nom: String,
+    }
+
+    impl Personne {
+        fn afficher(&self) {
+            println!("La personne suivante {} est convoqué", self.nom);
+        }
+    }
+    
+    let personne = Personne {
+        nom: "Alexandre".to_string()
+    };
+
+    personne.afficher();
+
 }
 
 fn addition(n1: i32, n2: i32) -> i32 {

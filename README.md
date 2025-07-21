@@ -108,3 +108,95 @@ for (i, nom) in noms.iter().enumerate() {
     println!("Nom {}: {}", i, nom);
 }
 ```
+
+### Tableau
+
+```rust
+let tableau = [1, 2, 3, 4, 5];
+for i in 0..tableau.len() {
+    println!("Élément {}: {}", i, tableau[i]);
+}
+
+// &elt itération sur des références aux élements du tableau 
+// &tab on passe une référence au tableau pour éviter de prendre la possession du tableau entier
+for &elt in &tableau {
+    println!("Élément: {}", elt);
+}
+```
+
+### Loop
+
+```rust
+let mut compteur = 0;
+loop {
+    compteur += 1;
+    if compteur == 3 {
+        break; // On sort de la bouvle quand le compteur atteins 3
+    }
+    println!("Compteur: {}", compteur);
+}
+```
+
+```rust
+let mut compteur2 = 0;
+while compteur2 < 5 {
+    compteur2 += 1;
+    println!("Compteur 2: {}", compteur2);
+}
+```
+
+### Struct
+
+```rust
+struct Salarie {
+    nom: String,
+    age: u32,
+    ville: String
+}
+
+let salarie1 = Salarie {
+    nom: String::from("Kevin"),
+    age: 28,
+    ville: String::from("Paris"),
+};
+
+**println!("Nom: {}, Age: {}, Ville: {}", salarie1.nom, salarie1.age, salarie1.ville);**
+```
+
+### Match (Switch)
+
+```rust
+let nombre = 10;
+match nombre {
+    1 => println!("Un"),
+    2 => println!("Deux"),
+    3 => println!("Trois"),
+    _ => println!("Autre nombre"),
+}
+```
+
+### Implementation
+
+```rust
+struct Personne {
+    nom: String,
+}
+
+impl Personne {
+    fn afficher(&self) {
+        println!("La personne suivante {} est convoqué", self.nom);
+    }
+}
+
+let personne = Personne {
+    nom: "Alexandre".to_string()
+};
+
+personne.afficher();
+```
+
+&self ⇒ Lecture seule
+
+self ⇒ transfère complet
+
+&mut self ⇒ modification possible
