@@ -200,3 +200,56 @@ personne.afficher();
 self ⇒ transfère complet
 
 &mut self ⇒ modification possible
+
+### Fichier - Ecriture
+
+```rust
+use std::fs::File;
+use std::io::{self, Write};
+
+fn main() -> io::Result<()> {
+    let mut file = File::create("test.txt")?;
+    file.write_all("Bonjour, fichier crée !".as_bytes())?;
+    println!("Fichier créé avec succès !");
+    Ok(())
+}
+```
+
+1. Importe `File` et `Write` pour la manipulation de fichiers
+2. Crée un fichier "test.txt" avec `File::create()`
+3. Écrit "Bonjour, fichier crée !" avec `write_all()`
+4. Affiche une confirmation avec `println!()`
+5. Utilise `?` pour la gestion d'erreurs automatique
+
+• `io::Result<()>` pour la gestion d'erreurs
+• `.as_bytes()` convertit la string en bytes pour l'écriture
+
+### Fichier - Lecture
+
+On doit ouvrir le fichier et lire son contenu en utilisant Read et BufReader
+
+BufReader → Lecteur tamponé pour améliorer les perfs
+
+```rust
+use std::fs::File;
+use std::io::{self, BufReader, Read};
+
+fn main() -> io::Result<()> {
+    let file = File::open("test.txt");
+    let file = match file {
+        Ok(f) => {
+            println!("Lecture réussie");
+            f
+        },
+        Err(e) => {
+            eprintln!("Erreur de lecture du fichier: {}", e);
+            return Err(e);
+        }
+    };
+    let mut reader = BufReader::new(file);
+    let mut content = String::new();
+    reader.read_to_string(&mut content)?;
+    println!("Contenu du fichier: {}", content);
+    Ok(())
+}
+```
