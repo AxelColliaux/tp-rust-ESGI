@@ -1,4 +1,5 @@
 use std::io;
+use chrono::Utc;
 
 fn main() {
     let nom = "Kevin";
@@ -136,6 +137,72 @@ fn main() {
 
     personne.afficher();
 
+    // Usage  de chrono 
+    let maintenant = Utc::now();
+    println!(" la date et l heure actuelle UTC est {}",maintenant);
+    println!("Format FR : {}", maintenant.format("%d/%m/%Y")); // Format 24/07/2025
+    println!("Format FR : {}", maintenant.format("%d/%m/%Y %H:%M:%S")); // Format 24/07/2025 10:18:22
+
+    // Notions d'ownership (propriétaire) et membership ( appartenance  à une structure)
+      // => pour garantir la sécurité mémoire 
+        //1. Ownership
+           // chaque valeur a un propriétaire unique, responsable de libérer la mémoire
+           // lorsqu'elle sort du scop 
+           // quand le propriétaire est déplacé, l'ancien propriétaire ,ne peut plus y accéder
+           // quand le propriétaire sort du scop, la valeur est automatiquement libérée 
+
+         //exemple : 
+
+         let prenom = String::from("Nourddine"); // prenom est propriétaire de la String
+         // println!("{}",prenom); 
+         let secu = String::from("1897272824252");
+         let prenom2 = prenom.clone();
+         greetings(prenom); // propriétaire est transferé à la fonction greetings()
+          println!("{}",prenom2); 
+
+          greetings2(&secu);  // emprunt immuable 
+          println!("{}",secu); 
+
+       // 3 MemberShip : ( Appartenance à une structure )
+          // décrit quelles sont les données contenues dans une structure Struct
+
+          // exemple :
+
+          let user = User {
+            nom : String::from("Alexandre"),
+            secu: String::from("1825678290 55")
+          };
+        
+         println!("nom {}",user.nom);
+         // display(&user); // &emprumter un champ d'une structure
+         display(user); 
+    }
+
+    struct User {
+        nom: String,
+        secu: String,
+    }
+    
+    // en C/C++     int age = 25; 
+    //           Contact contact1; 
+    //     usage contact1.age  contact.prenom 
+    //  public  class Voiture ( int puissance , String couleur , Vec  marque) {}
+    // fonction display
+    fn display(user: User) -> User{
+      println!(" Nom: {}, num secu : {}", user.nom, user.secu);
+      user
+    }
+
+
+  // avec emprunt & 
+      fn greetings2(msg:&String){
+      println!("Hello Mister {}",msg);
+     }   
+
+  // sans emprunt
+     fn greetings(msg:String){
+      println!("Hello Mister {}",msg);
+     
 }
 
 fn addition(n1: i32, n2: i32) -> i32 {
@@ -144,4 +211,22 @@ fn addition(n1: i32, n2: i32) -> i32 {
 
 fn say_hello(nom: &str) {
     println!("Hello, {}!", nom);
+}
+
+struct Compteur {
+    value: i32,
+}
+
+impl Compteur {
+    fn afficher(&self){
+        println!("la valeur actuelle :{}", self.value);
+    }
+
+    fn incrementer(&mut self){
+        self.value += 1;
+    }
+
+    fn deplacer(self){
+        println!("Déplacé : {}", self.value);  // self déplacé ici, plus accessible 
+    }
 }

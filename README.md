@@ -253,3 +253,76 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 ```
+
+### Chrono
+
+Ajoute de dépendance de le toml :
+
+```rust
+[package]
+name = "tp0"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde", "clock"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+```
+
+Avec Cargo run cela installe le dépendances ajoutées 
+
+```rust
+let maintenant = Utc::now();
+println!(" la date et l heure actuelle UTC est {}",maintenant);
+println!("Format FR : {}", maintenant.format("%d/%m/%Y")); // Format 24/07/2025
+println!("Format FR : {}", maintenant.format("%d/%m/%Y %H:%M:%S")); // Format 24/07/2025 10:18:22
+```
+
+### Ownership et Membership
+
+Ownership → cahque valeur a un propriétaire unique 
+
+Exemple : 
+
+```rust
+let prenom = String::from("Nourddine"); // prenom est propriétaire de la String
+// println!("{}",prenom); 
+let secu = String::from("1897272824252");
+let prenom2 = prenom.clone();
+greetings(prenom); // propriétaire est transferé à la fonction greetings()
+println!("{}",prenom2); 
+
+greetings2(&secu);  // emprunt immuable 
+println!("{}",secu); 
+
+// avec emprunt & 
+    fn greetings2(msg:&String){
+    println!("Hello Mister {}",msg);
+   }   
+
+// sans emprunt
+   fn greetings(msg:String){
+    println!("Hello Mister {}",msg);
+```
+
+Membership → décrit quelles sont les données contenues dans une structure
+
+Exemple : 
+
+```rust
+let user = User {
+  nom : String::from("Alexandre"),
+  secu: String::from("1825678290 55")
+};
+
+println!("nom {}",user.nom);
+//
+// display(&user); // &emprumter un champ d'une structure
+display(user); 
+
+fn display(user: User) -> User{
+  println!(" Nom: {}, num secu : {}", user.nom, user.secu);
+  user
+}
+```
