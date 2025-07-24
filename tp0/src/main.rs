@@ -1,7 +1,8 @@
 use std::io;
 use chrono::Utc;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let nom = "Kevin";
     let age: u32 = 30;
     let age_papa = 60;
@@ -176,6 +177,8 @@ fn main() {
          println!("nom {}",user.nom);
          // display(&user); // &emprumter un champ d'une structure
          display(user); 
+        //  async_test().await; // Appel de la fonction asynchrone
+        async_test2().await; // Appel de la fonction asynchrone
     }
 
     struct User {
@@ -229,4 +232,62 @@ impl Compteur {
     fn deplacer(self){
         println!("Déplacé : {}", self.value);  // self déplacé ici, plus accessible 
     }
+}
+
+use tokio::time::{sleep, Duration};
+
+// créer une fonction asynchrone et futures 
+async fn task ( nom:&str, duree:u64)  -> String{
+
+    println!(" Début de la tâche :{}", nom);
+    sleep(Duration::from_secs(duree)).await;
+    println!("Fin de tâche :{}", nom);
+    format!("Resultat de {}", nom)
+}
+
+async fn async_test() {
+
+
+println!("début de mon programme !");
+// je crée une fonction asynchrone aui attend 3 secondes 
+sleep(Duration::from_secs(3)).await;
+
+println!(" fin du programme après 3 secondes"); 
+
+let resultat = task("Task1",5).await;
+println!("Résultat reçu : {}", resultat); 
+
+
+}
+
+async fn async_test2() {
+    
+    let  debut = std::time::Instant::now();
+
+    println!("début de mon programme ! 222");
+    // je crée une fonction asynchrone qui attend 3 secondes 
+      sleep(Duration::from_secs(3)).await;
+      println!(" fin du programme après 3 secondes"); 
+      let resultat = task("Task1",5).await;
+        println!("Résultat 1 reçu : {}", resultat); 
+      let resultat2 = task("Task1",5).await;
+        println!("Résultat 2 reçu : {}", resultat2); 
+      let resultat3 = task("Task1",10).await;
+        println!("Résultat 3 reçu : {}", resultat3); 
+
+       println!("Temps total : {:?}", debut.elapsed()); 
+    
+
+     // si on veut lancer 3 tâches en parallèle on utilise  join
+     // use tokio::join   appel de la bibliothèque avant le main 
+     // sinon directement 
+     /*
+                  let ( res1, res2, res3 ) = tokio::join!(
+                          task("Task1",3),
+                          task("Task2",5),
+                          task("Task3",3),
+                  )
+     
+
+     */
 }
